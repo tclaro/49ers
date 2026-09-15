@@ -47,7 +47,7 @@ header{background:linear-gradient(135deg,var(--dark),var(--red));color:white;bor
 <!-- ===================== CALENDÁRIO ===================== -->
 <div class="view on" id="v-cal">
 <div class="nextgame" id="nextgame"></div>
-<div class="toolbar"><button class="on" data-filter="all">Todos</button><button data-filter="sf">🔴 Só jogos</button><button data-filter="rival">⚔️ NFC Oeste</button><button data-filter="must">⭐ Imperdíveis</button><span class="spacer"></span><button id="print">Imprimir / PDF</button></div>
+<div class="toolbar"><button class="on" data-filter="all">Todos</button><button data-filter="home">🏠 Em casa</button><button data-filter="away">✈️ Fora</button><button data-filter="rival">⚔️ NFC Oeste</button><button data-filter="must">⭐ Imperdíveis</button><span class="spacer"></span><button id="print">Imprimir / PDF</button></div>
 <div id="months"></div>
 
 <section class="watchbr">
@@ -156,7 +156,8 @@ function build(filter){
   GAMES.forEach(g=>{
     if(filter!=='all'){
       if(g.bye)return;
-      if(filter!=='sf'&&!(g.tags||'').split(' ').includes(filter))return;
+      if(filter==='home'||filter==='away'){if(g.ha!==filter)return}
+      else if(!(g.tags||'').split(' ').includes(filter))return;
     }
     const i=info(g);
     (porDia[i.date]=porDia[i.date]||[]).push([g,i]);
