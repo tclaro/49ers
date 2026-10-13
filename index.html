@@ -366,21 +366,38 @@ async function abrePopup(eid,ev){
 }
 function fechaPopup(){pop.classList.remove('on');popAtual=null}
 document.getElementById('popclose').onclick=fechaPopup;
-document.addEventListener('mouseover',function(e){
-  const el=e.target.closest('.event.final'); if(!el)return;
+/* Mouse: abre após o cursor repousar sobre o card (intenção de hover) e fica parado;
+   só fecha/reposiciona quando o cursor sai de vez do card e do popup.
+   Toque: os eventos de hover são ignorados; um toque abre, tocar fora (ou de novo no card) fecha. */
+const HOVER_ABRE=350, HOVER_FECHA=300;
+let fechaTimer=null;
+const ehMouse=e=>e.pointerType==='mouse';
+const naRegiao=n=>!!(n&&n.closest&&(n.closest('.event.final')||n.closest('#pop')));
+document.addEventListener('pointerover',function(e){
+  if(!ehMouse(e))return;
+  if(naRegiao(e.target))clearTimeout(fechaTimer);
+  const el=e.target.closest('.event.final');
+  if(!el||el.contains(e.relatedTarget))return;
+  if(pop.classList.contains('on')&&popAtual===el.dataset.eid)return;
   clearTimeout(popTimer);
-  const ev={clientX:e.clientX,clientY:e.clientY};
-  popTimer=setTimeout(()=>abrePopup(el.dataset.eid,ev),160);
+  let ev={clientX:e.clientX,clientY:e.clientY};
+  const segue=m=>{ev={clientX:m.clientX,clientY:m.clientY}};
+  el.addEventListener('pointermove',segue);
+  popTimer=setTimeout(function(){el.removeEventListener('pointermove',segue);if(el.matches(':hover'))abrePopup(el.dataset.eid,ev)},HOVER_ABRE);
+  el.addEventListener('pointerleave',function(){clearTimeout(popTimer);el.removeEventListener('pointermove',segue)},{once:true});
 });
-document.addEventListener('mousemove',function(e){ if(pop.classList.contains('on')&&e.target.closest('.event.final'))posiciona(e) });
-document.addEventListener('mouseout',function(e){
-  if(!e.target.closest('.event.final'))return;
-  clearTimeout(popTimer);
-  setTimeout(function(){if(!pop.matches(':hover'))fechaPopup()},280);
+document.addEventListener('pointerout',function(e){
+  if(!ehMouse(e)||!naRegiao(e.target)||naRegiao(e.relatedTarget))return;
+  clearTimeout(fechaTimer);
+  fechaTimer=setTimeout(function(){if(!pop.matches(':hover')&&!document.querySelector('.event.final:hover'))fechaPopup()},HOVER_FECHA);
 });
 document.addEventListener('click',function(e){
   const el=e.target.closest('.event.final');
-  if(el){abrePopup(el.dataset.eid,{clientX:e.clientX,clientY:e.clientY});return}
+  if(el){
+    clearTimeout(popTimer);clearTimeout(fechaTimer);
+    if(pop.classList.contains('on')&&popAtual===el.dataset.eid&&e.pointerType!=='mouse'){fechaPopup();return}
+    abrePopup(el.dataset.eid,{clientX:e.clientX,clientY:e.clientY});return;
+  }
   if(!e.target.closest('#pop'))fechaPopup();
 });
 addEventListener('keydown',function(e){if(e.key==='Escape')fechaPopup()});
