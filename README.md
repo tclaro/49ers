@@ -1,4 +1,4 @@
-# Calendário NFL 2026 — 49ers 🔴🟡 · Eagles 🦅💚 · Chargers ⚡💙
+# Calendário NFL 2026 — 49ers 🔴🟡 · Eagles 🦅💚 · Chargers ⚡💙 · Bills 🦬
 
 Página estática com o calendário da temporada 2026/27, horários já convertidos
 para Brasília e o guia de transmissão no Brasil. Dá para alternar entre três
@@ -7,7 +7,7 @@ divisão) se ajusta ao time escolhido.
 
 ## O que tem
 
-- **Seletor de times** — 49ers, Eagles e Chargers. O escudo escolhido troca a paleta (cabeçalho, botões, cards, selos), o calendário, o elenco e a divisão. A escolha fica salva no navegador e na URL (`?time=phi`), então dá para compartilhar o link já no time certo.
+- **Seletor de times** — 49ers, Eagles, Chargers e Bills. O escudo escolhido troca a paleta (cabeçalho, botões, cards, selos), o calendário, o elenco e a divisão. A escolha fica salva no navegador e na URL (`?time=phi`), então dá para compartilhar o link já no time certo.
 - **Calendário** — os 17 jogos + bye, com adversário, horário de Brasília, onde assistir e marcações (⚔️ divisão, ⭐ imperdível, 🌙 prime time, 🌏 jogo internacional).
 - **Filtros** — todos, em casa, fora, jogos da divisão e imperdíveis.
 - **Contagem regressiva** para o próximo jogo, com adversário e canal.
@@ -26,14 +26,14 @@ A página é **100% estática** — não tem backend, e não precisa.
    responde com `Access-Control-Allow-Origin: *` — por isso funciona a partir do
    GitHub Pages. Placares, horários remarcados (flex scheduling), elenco e
    classificação passam a vir de lá.
-3. Para **Eagles** e **Chargers** não existe tabela fixa no arquivo: o calendário
+3. Para **Eagles**, **Chargers** e **Bills** não existe tabela fixa no arquivo: o calendário
    inteiro é montado a partir da resposta da ESPN. Os selos são deduzidos ali
    mesmo — jogo de divisão vira ⚔️, o horário nos EUA vira 🌙 TNF/SNF/MNF, estádio
    fora dos EUA vira 🌏, e a emissora americana é traduzida para o equivalente
    brasileiro (NBC → SporTV, ESPN/ABC → ESPN·Disney+, e assim por diante). A bye
    week é a semana que falta na sequência.
 4. Se a API estiver fora do ar, a página avisa no rodapé. Nos 49ers ela continua
-   exibindo os dados fixos; nos outros dois times pede para recarregar online.
+   exibindo os dados fixos; nos outros times pede para recarregar online.
 
 Endpoints usados (`{time}` = `sf`, `phi` ou `lac`):
 
@@ -97,6 +97,6 @@ Se precisar mexer sem depender da API, edite a constante `CAL_SF` no
 
 ## Fontes
 
-- [49ers.com](https://www.49ers.com/schedule/) · [philadelphiaeagles.com](https://www.philadelphiaeagles.com/schedule/) · [chargers.com](https://www.chargers.com/schedule/) — tabelas oficiais
+- [49ers.com](https://www.49ers.com/schedule/) · [philadelphiaeagles.com](https://www.philadelphiaeagles.com/schedule/) · [chargers.com](https://www.chargers.com/schedule/) · [buffalobills.com](https://www.buffalobills.com/schedule/) — tabelas oficiais
 - [NFL — Ways to Watch Brasil](https://www.nfl.com/international/ways-to-watch/brazil) — quem transmite no Brasil
 - [ESPN Brasil](https://www.espn.com.br/nfl/) e [ge · Futebol Americano](https://ge.globo.com/futebol-americano/) — jogo da rodada na TV brasileira
